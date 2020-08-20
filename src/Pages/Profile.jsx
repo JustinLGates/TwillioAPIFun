@@ -6,8 +6,12 @@ const Profile = () => {
   async function makeRequest() {
     try {
       //NOTE to test the make api request you must add an end point
-      setRequestData("Trying to get data...");
-      let res = await api.get("");
+      setRequestData("");
+      let res = await api.post("messages", {
+        Body: "Testing Twillio API SMS",
+        PhoneNumber: "+12086954231",
+        Name: "Justin",
+      });
       setRequestData(JSON.stringify(res.data));
     } catch (error) {
       console.error(error);
