@@ -2,15 +2,16 @@ import React, { useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { api } from "../axios";
 
+const PhoneNumber = ""; //NOTE 10 diget phone number you want to text
 const Profile = () => {
   async function makeRequest() {
     try {
-      //NOTE to test the make api request you must add an end point
       setRequestData("");
       let res = await api.post("messages", {
-        Body: "Testing Twillio API SMS",
-        PhoneNumber: "+12086954231",
-        Name: "Justin",
+        //NOTE to test the make api request you must add an end point
+        Body: messageData,
+        PhoneNumber: "+1" + PhoneNumber,
+        Name: "name",
       });
       setRequestData(JSON.stringify(res.data));
     } catch (error) {
@@ -20,6 +21,11 @@ const Profile = () => {
       );
     }
   }
+  const [messageData, setMessageData] = useState("");
+  const messageChange = (event) => {
+    setMessageData(event.target.value);
+  };
+
   const [requestData, setRequestData] = useState(
     "Make a request to get JSON data from api"
   );
@@ -32,7 +38,12 @@ const Profile = () => {
           <h2>{user.nickname}</h2>
           <p>{user.email}</p>
         </div>
-
+        <input
+          className="p-2 m-2"
+          onChange={messageChange}
+          value={messageData}
+          placeholder="message..."
+        />
         <button className="btn btn-dark" onClick={makeRequest}>
           Make api request
         </button>
